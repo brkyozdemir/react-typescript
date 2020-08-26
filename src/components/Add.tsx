@@ -4,14 +4,12 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { useForm } from 'react-hook-form';
-import { Transaction } from '../types/Transaction';
 import { AppState } from '../store/configureStore';
 import { makeStyles } from '@material-ui/core';
 import { useSelector, useDispatch } from 'react-redux';
 import { ThunkDispatch } from 'redux-thunk';
 import { AppActions } from '../types/actions';
 import { startAddTransaction } from '../actions/transactions';
-import moment from 'moment';
 
 const currency: { name: string }[] = [
   { name: 'USD' },
@@ -28,6 +26,7 @@ const useStyles = makeStyles(theme => ({
     color: 'white',
     marginBottom: '10px',
     display: 'flex',
+    borderRadius: '60px',
     justifyContent: 'center',
     alignItems: 'center',
     fontSize: '20px',
@@ -41,9 +40,9 @@ const useStyles = makeStyles(theme => ({
 const AddPage: React.FC = () => {
   const classes = useStyles();
   const [open, setOpen] = useState<boolean>(false);
-  const [error, setError] = useState<string>('');
+  const [error] = useState<string>('');
   const { register, handleSubmit } = useForm();
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading] = useState<boolean>(false);
   const [name, setName] = useState<string>('');
   const [description, setDescription] = useState<string>('');
 
@@ -91,7 +90,7 @@ const AddPage: React.FC = () => {
 
   const onSubmit = () => {
     const trans = {
-      id: transactions[transactions.length - 1].id + 1,
+      id: transactions.length < 1 ? 1 : transactions[transactions.length - 1].id + 1,
       name: name,
       description: description,
       transactionDate: new Date(transactionDate),
@@ -103,9 +102,8 @@ const AddPage: React.FC = () => {
     setTransactionDate('');
     setAmount('');
     setCurrency('');
-    console.log(trans)
     transactionDispatch(startAddTransaction(trans));
-    handleClose()
+    handleClose();
   }
 
   return (

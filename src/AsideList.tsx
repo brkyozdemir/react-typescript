@@ -17,7 +17,7 @@ const useStyles = makeStyles(theme => ({
 
 const AsideList: React.FC = () => {
   const classes = useStyles();
-  const [selectedIndex, setSelectedIndex] = React.useState(1);
+  const [selectedIndex] = React.useState(1);
 
   return (
     <div className={classes.root}>

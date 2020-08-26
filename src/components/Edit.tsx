@@ -24,13 +24,13 @@ const currency: { name: string }[] = [
 
 const EditPage: React.FC<Props> = ({ data }) => {
   const [open, setOpen] = useState<boolean>(false);
-  const [error, setError] = useState<string>('');
+  const [error] = useState<string>('');
   const { register, handleSubmit } = useForm();
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading] = useState<boolean>(false);
   const [name, setName] = useState<string>(data.name);
   const [description, setDescription] = useState<string>(data.description);
   const [transactionDate, setTransactionDate] = useState<string>(new Date(data.transactionDate).toString());
-  const [id, setId] = useState<number>(data.id);
+  const [id] = useState<number>(data.id);
 
   const [amount, setAmount] = useState<number>(data.amount);
   const [curr, setCurrency] = useState<string>(data.currency);
