@@ -1,5 +1,5 @@
 
-import React, { Dispatch } from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -10,6 +10,11 @@ import './Transaction.css';
 import { useSelector, useDispatch } from 'react-redux';
 import { AppState } from './store/configureStore';
 import { AppActions } from './types/actions';
+import { Transaction } from './types/Transaction';
+import { startAddTransaction } from './actions/transactions';
+import { ThunkDispatch } from 'redux-thunk';
+import Remove from './components/Remove';
+import Edit from './components/Edit';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -47,23 +52,26 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-// interface TransactionProps {
-//   id?: number,
-//   name: string,
-//   description: string,
-//   transactionDate: string,
-//   amount: string
-// }
-
-const Transaction = () => {
+const TransactionPage = () => {
   const classes = useStyles();
   const transactions = useSelector((state: AppState) => state.transactions);
-  const transactionDispatch = useDispatch<Dispatch<AppActions>>();
+  const transactionDispatch = useDispatch<ThunkDispatch<any, any, AppActions>>();
+
+  const handleAddTransaction = () => {
+    const trans = {
+      id: (parseInt(transactions[transactions.length - 1].id) + 1).toString(),
+      name: 'asd',
+      description: 'asd2',
+      transactionDate: 'asd3',
+      amount: 'asd4'
+    }
+    transactionDispatch(startAddTransaction(trans));
+  }
 
   return (
     <div className="transaction__flex">
       <div className={classes.root}>
-        <span className={classes.span}>+ New Transaction</span>
+        <span onClick={() => handleAddTransaction()} className={classes.span}>+ New Transaction</span>
         <Table className={classes.table}>
           <TableHead className={classes.tableHead}>
             <TableRow>
@@ -83,7 +91,10 @@ const Transaction = () => {
                 <TableCell className={classes.tableCell} align="center">{row.description}</TableCell>
                 <TableCell className={classes.tableCell} align="center">{row.transactionDate}</TableCell>
                 <TableCell className={classes.tableCell} align="center">{row.amount}</TableCell>
-                <TableCell className={classes.tableCell} align="center"></TableCell>
+                <TableCell className={classes.tableCell} align="center">
+                  <Edit />
+                  <Remove />
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>
@@ -93,4 +104,4 @@ const Transaction = () => {
   );
 }
 
-export default Transaction;
+export default TransactionPage;
