@@ -1,0 +1,8 @@
+.layout__flex{
+  display: flex;
+}
+
+.navbar{
+  height: 60px;
+  background-color: #C9C9C9;
+}
