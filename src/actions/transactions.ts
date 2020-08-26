@@ -1,6 +1,5 @@
 import { Transaction } from "../types/Transaction";
 import { AppActions } from "../types/actions";
-import { v4 } from 'uuid';
 import { AppState } from "../store/configureStore";
 import { Dispatch } from "redux";
 
@@ -14,22 +13,23 @@ export const editTransaction = (transaction: Transaction): AppActions => ({
   transaction
 });
 
-export const removeTransaction = (id: string): AppActions => ({
+export const removeTransaction = (id: number): AppActions => ({
   type: 'REMOVE_TRANSACTION',
   id
 });
 
 export const startAddTransaction = (transactionData:
-  { id: string, name: string, description: string, transactionDate: string, amount: string }) => {
+  { id: number, name: string, description: string, transactionDate: Date, amount: number, currency: string }) => {
   return (dispatch: Dispatch<AppActions>, getState: () => AppState) => {
     const {
-      id = '',
+      id = 0,
       name = '',
       description = '',
-      transactionDate = '',
-      amount = ''
+      transactionDate = new Date(),
+      amount = 0,
+      currency = ''
     } = transactionData;
-    const transaction = { id, name, description, transactionDate, amount };
+    const transaction = { id, name, description, transactionDate, amount, currency };
     // const uuid = v4();
     // console.log(uuid);
     dispatch(
@@ -40,7 +40,7 @@ export const startAddTransaction = (transactionData:
   };
 }
 
-export const startRemoveTransaction = (id: string) => {
+export const startRemoveTransaction = (id: number) => {
   return (dispatch: Dispatch<AppActions>, getState: () => AppState) => {
     dispatch(removeTransaction(id));
   }

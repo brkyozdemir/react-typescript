@@ -4,7 +4,7 @@ import transactionReducer from '../reducers/transactions';
 import { AppActions } from '../types/actions';
 
 export const rootReducer = combineReducers({
-  transactions: transactionReducer
+  transactions: transactionReducer,
 });
 
 export type AppState = ReturnType<typeof rootReducer>

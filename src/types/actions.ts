@@ -11,7 +11,7 @@ export interface EditTransactionAction{
 
 export interface RemoveTransactionAction{
   type: typeof REMOVE_TRANSACTION;
-  id: string;
+  id: number;
 }
 
 export interface AddTransactionAction{

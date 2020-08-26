@@ -1,13 +1,122 @@
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
+}
+
+@font-face {
+  font-family: "Poppins";
+  src: local("Poppins"), url(./fonts/poppins_light.ttf) format("truetype");
+}
+
+textarea,
+input,
+label,
+h3,
+p,
+span,
+small,
+td,
+th {
+  font-family: "Poppins";
+}
+
+td,
+th {
+  color: #263238 !important;
+}
+
+.entry-form {
+  min-width: 300px;
+  width: 400px;
+  padding: 10px;
+}
+
+.entry-form input,
+.entry-form textarea,
+.entry-form select {
+  resize: none;
+  border: none;
+  border-bottom: 1px solid #90a4ae;
+  outline: none;
+}
+
+.entry-form input:focus,
+.entry-form textarea:focus {
+  resize: none;
+  border: none;
+  border-bottom: 1px solid #263238;
+  outline: none;
+  background-color: #dedede;
+  border-radius: 10px;
+  padding: 5px;
+}
+
+.entry-form button {
+  border: none;
+  background-color: #263238;
+  color: #90a4ae;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.entry-form button:hover {
+  border: none;
+  background-color: #37474f;
+  cursor: pointer;
+}
+
+.entry-form label {
+  font-weight: 600;
+}
+
+.entry-form label,
+.entry-form input,
+.entry-form textarea,
+.entry-form button,
+.entry-form select {
+  font-size: 1rem;
+  margin: 0.5rem 0;
+  display: block;
+  width: 100%;
+}
+
+.error {
+  color: #f05305;
+}
+
+.close_button {
+  font-size: 1rem;
+  margin: 0.5rem 0;
+  display: block;
+  width: 400px;
+  border: none;
+  background-color: #263238;
+  color: #90a4ae;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.close_button:hover {
+  border: none;
+  background-color: #37474f;
+  cursor: pointer;
+}
+
+#content_dialog .button_outform {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.MuiTableCell-stickyHeader {
+  background-color: #cfd8dc !important;
 }

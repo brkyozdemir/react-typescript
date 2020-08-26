@@ -7,21 +7,36 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { ReactComponent as RemoveSVG } from '../assets/remove.svg';
+import { Transaction } from '../types/Transaction';
+import { useDispatch } from 'react-redux';
+import { ThunkDispatch } from 'redux-thunk';
+import { AppActions } from '../types/actions';
+import { startRemoveTransaction } from '../actions/transactions';
 
-export default function Remove() {
+interface Props {
+  data: Transaction
+}
+
+const RemovePage: React.FC<Props> = ({ data }) => {
   const [open, setOpen] = React.useState(false);
+  const transactionDispatch = useDispatch<ThunkDispatch<any, any, AppActions>>();
 
-  function handleClickOpen() {
+  const handleClickOpen = () => {
     setOpen(true);
   }
 
-  function handleClose() {
+  const handleClose = () => {
     setOpen(false);
+  }
+
+  const handleRemove = () => {
+    transactionDispatch(startRemoveTransaction(data.id));
+    handleClose();
   }
 
   return (
     <div>
-      <span style={{ float: 'right' }} onClick={() => setOpen(true)}>
+      <span style={{ float: 'right', cursor: 'pointer' }} onClick={() => handleClickOpen()}>
         <RemoveSVG />
       </span>
       <Dialog
@@ -30,22 +45,23 @@ export default function Remove() {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">{"Use Google's location service?"}</DialogTitle>
+        <DialogTitle id="alert-dialog-title">{`Delete Transaction Id:${data.id}`}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            Let Google help apps determine location. This means sending anonymous location data to
-            Google, even when no apps are running.
+            Are you sure to delete this record?
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} color="primary">
-            Disagree
+          <Button onClick={handleClose} style={{ color: '#263238' }}>
+            <strong>Cancel</strong>
           </Button>
-          <Button onClick={handleClose} color="primary" autoFocus>
-            Agree
+          <Button onClick={handleRemove} style={{ color: 'white', backgroundColor: 'red' }} autoFocus>
+            Delete
           </Button>
         </DialogActions>
       </Dialog>
     </div>
   );
 }
+
+export default RemovePage;

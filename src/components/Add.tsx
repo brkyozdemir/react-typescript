@@ -3,38 +3,61 @@ import React, { useState } from 'react';
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import { ReactComponent as EditSVG } from '../assets/edit.svg';
 import { useForm } from 'react-hook-form';
 import { Transaction } from '../types/Transaction';
-import moment from 'moment';
-import { startEditTransaction } from '../actions/transactions';
-import { useDispatch } from 'react-redux';
+import { AppState } from '../store/configureStore';
+import { makeStyles } from '@material-ui/core';
+import { useSelector, useDispatch } from 'react-redux';
 import { ThunkDispatch } from 'redux-thunk';
 import { AppActions } from '../types/actions';
-
-interface Props {
-  data: Transaction
-}
+import { startAddTransaction } from '../actions/transactions';
+import moment from 'moment';
 
 const currency: { name: string }[] = [
   { name: 'USD' },
   { name: 'TRY' },
   { name: 'EUR' }
-]
+];
 
-const EditPage: React.FC<Props> = ({ data }) => {
+const useStyles = makeStyles(theme => ({
+  span: {
+    float: 'right',
+    height: '40px',
+    width: '219px',
+    backgroundColor: '#455A64',
+    color: 'white',
+    marginBottom: '10px',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    fontSize: '20px',
+    '&:hover': {
+      cursor: 'pointer',
+      backgroundColor: '#707070'
+    }
+  }
+}));
+
+const AddPage: React.FC = () => {
+  const classes = useStyles();
   const [open, setOpen] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
   const { register, handleSubmit } = useForm();
   const [loading, setLoading] = useState<boolean>(false);
-  const [name, setName] = useState<string>(data.name);
-  const [description, setDescription] = useState<string>(data.description);
-  const [transactionDate, setTransactionDate] = useState<string>(new Date(data.transactionDate).toString());
-  const [id, setId] = useState<number>(data.id);
+  const [name, setName] = useState<string>('');
+  const [description, setDescription] = useState<string>('');
 
-  const [amount, setAmount] = useState<number>(data.amount);
-  const [curr, setCurrency] = useState<string>(data.currency);
+  const mDate = new Date();
+  const dd = String(mDate.getDate()).padStart(2, '0');
+  const mm = String(mDate.getMonth() + 1).padStart(2, '0');
+  const yyyy = mDate.getFullYear();
+  const today: string = mm + '.' + dd + '.' + yyyy;
+  const [transactionDate, setTransactionDate] = useState<string>(today);
 
+  const [amount, setAmount] = useState<string>('');
+  const [curr, setCurrency] = useState<string>('TRY');
+
+  const transactions = useSelector((state: AppState) => state.transactions);
   const transactionDispatch = useDispatch<ThunkDispatch<any, any, AppActions>>();
 
   const handleClickOpen = () => {
@@ -43,19 +66,6 @@ const EditPage: React.FC<Props> = ({ data }) => {
 
   const handleClose = () => {
     setOpen(false);
-  }
-
-  const onSubmit = () => {
-    const trans = {
-      id: id,
-      name: name,
-      description: description,
-      transactionDate: new Date(transactionDate),
-      amount: amount,
-      currency: curr
-    }
-    transactionDispatch(startEditTransaction(trans));
-    handleClose()
   }
 
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -67,7 +77,7 @@ const EditPage: React.FC<Props> = ({ data }) => {
   }
 
   const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setAmount(parseInt(e.target.value));
+    setAmount(e.target.value);
   }
 
   const handleTextareaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -79,35 +89,52 @@ const EditPage: React.FC<Props> = ({ data }) => {
     setCurrency(e.target.value);
   }
 
+  const onSubmit = () => {
+    const trans = {
+      id: transactions[transactions.length - 1].id + 1,
+      name: name,
+      description: description,
+      transactionDate: new Date(transactionDate),
+      amount: parseInt(amount),
+      currency: curr
+    }
+    setName('');
+    setDescription('');
+    setTransactionDate('');
+    setAmount('');
+    setCurrency('');
+    console.log(trans)
+    transactionDispatch(startAddTransaction(trans));
+    handleClose()
+  }
+
   return (
     <div>
-      <span style={{ float: 'left', cursor: 'pointer' }} onClick={() => handleClickOpen()}>
-        <EditSVG />
-      </span>
+      <span onClick={() => handleClickOpen()} className={classes.span}>+ New Transaction</span>
       <Dialog
         open={open}
         onClose={handleClose}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">{`Edit Transaction Id:${data.id}`}</DialogTitle>
+        <DialogTitle id="alert-dialog-title">{"Add a New Transaction"}</DialogTitle>
         <DialogContent id="content_dialog">
           <form onSubmit={handleSubmit(onSubmit)} className="entry-form">
             {error && <h3 className="error">{error}</h3>}
             <label htmlFor="name">Name</label>
             <input onChange={handleNameChange} name="name" value={name} required ref={register} />
             <label htmlFor="description">Decription</label>
-            <textarea onChange={handleTextareaChange} required name="description" value={description} rows={3} ref={register} />
+            <textarea onChange={handleTextareaChange} name="description" value={description} rows={3} ref={register} />
             <label htmlFor="transactionDate">Transaction Date</label>
-            <input onChange={handleTDateChange} name="transactionDate" value={moment(transactionDate).format('YYYY-MM-DD')} type="date" required ref={register} />
+            <input onChange={handleTDateChange} name="transactionDate" value={transactionDate} type="date" ref={register} />
             <div style={{ display: 'flex' }}>
               <div style={{ flex: '0.5', paddingRight: '10px' }}>
                 <label htmlFor="amount">Amount</label>
-                <input id="amount_input" onChange={handleAmountChange} name="amount" value={amount} required ref={register} />
+                <input id="amount_input" onChange={handleAmountChange} name="amount" type="number" value={amount} required ref={register} />
               </div>
-              <div style={{ flex: '0.5'}}>
+              <div style={{ flex: '0.5' }}>
                 <label htmlFor="currency">Currency</label>
-                <select onChange={handleSelectChange} value={curr} ref={register} name="currency" style={{ paddingTop: '8px'  }}>
+                <select onChange={handleSelectChange} value={curr} ref={register} name="currency" style={{ paddingTop: '8px' }}>
                   {currency.map((data, index) => (
                     <option key={index} value={data.name}>{data.name}</option>
                   ))}
@@ -125,4 +152,4 @@ const EditPage: React.FC<Props> = ({ data }) => {
   );
 }
 
-export default EditPage;
+export default AddPage;

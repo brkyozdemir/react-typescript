@@ -10,7 +10,7 @@ const useStyles = makeStyles(theme => ({
     width: '100%',
     maxWidth: 360,
     height: '100vh',
-    backgroundColor: '#EDEDED',
+    backgroundColor: '#CFD8DC',
     flex: 0.2
   },
 }));
@@ -29,7 +29,7 @@ const AsideList: React.FC = () => {
           <ListItemText primary="Dashboard" />
         </ListItem>
         <ListItem
-          style={{ backgroundColor: '#D3D3D3' }}
+          style={{ backgroundColor: '#90A4AE' }}
           button
           selected={selectedIndex === 1}
         >
