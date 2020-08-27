@@ -32,7 +32,11 @@ const EditPage: React.FC<Props> = ({ data }) => {
   const [transactionDate, setTransactionDate] = useState<string>(new Date(data.transactionDate).toString());
   const [id] = useState<number>(data.id);
 
-  const [amount, setAmount] = useState<number>(data.amount);
+  const mod = data.amount.toString();
+  const lAm = mod.split('.')[0]
+  const rAm = mod.split('.')[1]
+  const [amount, setAmount] = useState<number>(parseInt(lAm));
+  const [cent, setCent] = useState<string>(!rAm ? '0' : rAm);
   const [curr, setCurrency] = useState<string>(data.currency);
 
   const transactionDispatch = useDispatch<ThunkDispatch<any, any, AppActions>>();
@@ -51,16 +55,20 @@ const EditPage: React.FC<Props> = ({ data }) => {
       name: name,
       description: description,
       transactionDate: new Date(transactionDate),
-      amount: amount,
+      amount: parseFloat(amount + '.' + cent),
       currency: curr
     }
     transactionDispatch(startEditTransaction(trans));
-    handleClose()
+    handleClose();
   }
 
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value);
   };
+
+  const handleCentChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setCent(e.target.value);
+  }
 
   const handleTDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTransactionDate(e.target.value);
@@ -101,13 +109,17 @@ const EditPage: React.FC<Props> = ({ data }) => {
             <label htmlFor="transactionDate">Transaction Date</label>
             <input onChange={handleTDateChange} name="transactionDate" value={moment(transactionDate).format('YYYY-MM-DD')} type="date" required ref={register} />
             <div style={{ display: 'flex' }}>
-              <div style={{ flex: '0.5', paddingRight: '10px' }}>
-                <label htmlFor="amount">Amount</label>
-                <input id="amount_input" onChange={handleAmountChange} name="amount" value={amount} required ref={register} />
+              <div style={{ flex: '0.3', paddingRight: '10px' }}>
+                <label htmlFor="amount">Price</label>
+                <input id="amount_input" onChange={handleAmountChange} name="amount" type="number" value={amount} required ref={register} />
               </div>
-              <div style={{ flex: '0.5'}}>
+              <div style={{ flex: '0.2', paddingRight: '10px' }}>
+                <label htmlFor="cent">Cent</label>
+                <input id="amount_input" onChange={handleCentChange} name="cent" type="number" value={cent} ref={register} />
+              </div>
+              <div style={{ flex: '0.5' }}>
                 <label htmlFor="currency">Currency</label>
-                <select onChange={handleSelectChange} value={curr} ref={register} name="currency" style={{ paddingTop: '8px'  }}>
+                <select onChange={handleSelectChange} value={curr} ref={register} name="currency" style={{ paddingTop: '8px' }}>
                   {currency.map((data, index) => (
                     <option key={index} value={data.name}>{data.name}</option>
                   ))}

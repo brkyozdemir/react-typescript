@@ -45,6 +45,7 @@ const AddPage: React.FC = () => {
   const [loading] = useState<boolean>(false);
   const [name, setName] = useState<string>('');
   const [description, setDescription] = useState<string>('');
+  const [cent, setCent] = useState<string>('0');
 
   const mDate = new Date();
   const dd = String(mDate.getDate()).padStart(2, '0');
@@ -79,6 +80,10 @@ const AddPage: React.FC = () => {
     setAmount(e.target.value);
   }
 
+  const handleCentChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setCent(e.target.value);
+  }
+
   const handleTextareaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setDescription(e.target.value);
 
@@ -94,7 +99,7 @@ const AddPage: React.FC = () => {
       name: name,
       description: description,
       transactionDate: new Date(transactionDate),
-      amount: parseInt(amount),
+      amount: parseFloat(amount + '.' + cent),
       currency: curr
     }
     setName('');
@@ -126,9 +131,13 @@ const AddPage: React.FC = () => {
             <label htmlFor="transactionDate">Transaction Date</label>
             <input onChange={handleTDateChange} name="transactionDate" value={transactionDate} type="date" ref={register} />
             <div style={{ display: 'flex' }}>
-              <div style={{ flex: '0.5', paddingRight: '10px' }}>
-                <label htmlFor="amount">Amount</label>
+              <div style={{ flex: '0.3', paddingRight: '10px' }}>
+                <label htmlFor="amount">Price</label>
                 <input id="amount_input" onChange={handleAmountChange} name="amount" type="number" value={amount} required ref={register} />
+              </div>
+              <div style={{ flex: '0.2', paddingRight: '10px' }}>
+                <label htmlFor="cent">Cent</label>
+                <input id="amount_input" onChange={handleCentChange} name="cent" type="number" value={cent} required ref={register} />
               </div>
               <div style={{ flex: '0.5' }}>
                 <label htmlFor="currency">Currency</label>
