@@ -11,6 +11,7 @@ import { startEditTransaction } from '../actions/transactions';
 import { useDispatch } from 'react-redux';
 import { ThunkDispatch } from 'redux-thunk';
 import { AppActions } from '../types/actions';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
   data: Transaction
@@ -23,6 +24,7 @@ const currency: { name: string }[] = [
 ]
 
 const EditPage: React.FC<Props> = ({ data }) => {
+  const { t, i18n } = useTranslation();
   const [open, setOpen] = useState<boolean>(false);
   const [error] = useState<string>('');
   const { register, handleSubmit } = useForm();
@@ -98,27 +100,27 @@ const EditPage: React.FC<Props> = ({ data }) => {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">{`Edit Transaction Id:${data.id}`}</DialogTitle>
+        <DialogTitle id="alert-dialog-title">{`${t('Edit.Transaction')} Id:${data.id}`}</DialogTitle>
         <DialogContent id="content_dialog">
           <form onSubmit={handleSubmit(onSubmit)} className="entry-form">
             {error && <h3 className="error">{error}</h3>}
-            <label htmlFor="name">Name</label>
+            <label htmlFor="name">{t('Name')}</label>
             <input onChange={handleNameChange} name="name" value={name} required ref={register} />
-            <label htmlFor="description">Decription</label>
+            <label htmlFor="description">{t('Description')}</label>
             <textarea onChange={handleTextareaChange} required name="description" value={description} rows={3} ref={register} />
-            <label htmlFor="transactionDate">Transaction Date</label>
+            <label htmlFor="transactionDate">{t('Transaction.Date')}</label>
             <input onChange={handleTDateChange} name="transactionDate" value={moment(transactionDate).format('YYYY-MM-DD')} type="date" required ref={register} />
             <div style={{ display: 'flex' }}>
               <div style={{ flex: '0.3', paddingRight: '10px' }}>
-                <label htmlFor="amount">Price</label>
+                <label htmlFor="amount">{t('Price')}</label>
                 <input id="amount_input" onChange={handleAmountChange} name="amount" type="number" value={amount} required ref={register} />
               </div>
               <div style={{ flex: '0.2', paddingRight: '10px' }}>
-                <label htmlFor="cent">Cent</label>
+                <label htmlFor="cent">{t('Cent')}</label>
                 <input id="amount_input" onChange={handleCentChange} name="cent" type="number" value={cent} ref={register} />
               </div>
               <div style={{ flex: '0.5' }}>
-                <label htmlFor="currency">Currency</label>
+                <label htmlFor="currency">{t('Currency')}</label>
                 <select onChange={handleSelectChange} value={curr} ref={register} name="currency" style={{ paddingTop: '8px' }}>
                   {currency.map((data, index) => (
                     <option key={index} value={data.name}>{data.name}</option>
@@ -126,10 +128,10 @@ const EditPage: React.FC<Props> = ({ data }) => {
                 </select>
               </div>
             </div>
-            <button disabled={loading}>{loading ? 'Loading...' : 'Confirm'}</button>
+            <button disabled={loading}>{loading ? 'Loading...' : `${t('Confirm')}`}</button>
           </form>
           <div className="button_outform">
-            <button disabled={loading} className="close_button" onClick={() => handleClose()}>Close</button>
+            <button disabled={loading} className="close_button" onClick={() => handleClose()}>{t('Close')}</button>
           </div>
         </DialogContent>
       </Dialog>

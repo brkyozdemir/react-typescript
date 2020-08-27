@@ -14,6 +14,7 @@ import Edit from './components/Edit';
 import Add from './components/Add';
 import moment from 'moment';
 import TableContainer from '@material-ui/core/TableContainer';
+import { useTranslation } from 'react-i18next';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -45,6 +46,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const TransactionPage = () => {
+  const { t, i18n } = useTranslation();
   const classes = useStyles();
   const transactions = useSelector((state: AppState) => state.transactions);
 
@@ -56,11 +58,11 @@ const TransactionPage = () => {
           <Table stickyHeader className={classes.table} id="fixed_header">
             <TableHead className={classes.tableHead}>
               <TableRow>
-                <TableCell scope="col" className={classes.tableCell} style={{ fontWeight: 700, fontSize: '20px' }} align="center">ID</TableCell>
-                <TableCell scope="col" className={classes.tableCell} style={{ fontWeight: 700, fontSize: '20px' }} align="center">Name</TableCell>
-                <TableCell scope="col" className={classes.tableCell} style={{ fontWeight: 700, fontSize: '20px' }} align="center">Description</TableCell>
-                <TableCell scope="col" className={classes.tableCell} style={{ fontWeight: 700, fontSize: '20px' }} align="center">Transaction Date</TableCell>
-                <TableCell scope="col" className={classes.tableCell} style={{ fontWeight: 700, fontSize: '20px' }} align="center">Amount</TableCell>
+                <TableCell scope="col" className={classes.tableCell} style={{ fontWeight: 700, fontSize: '20px' }} align="center">{t('ID')}</TableCell>
+                <TableCell scope="col" className={classes.tableCell} style={{ fontWeight: 700, fontSize: '20px' }} align="center">{t('Name')}</TableCell>
+                <TableCell scope="col" className={classes.tableCell} style={{ fontWeight: 700, fontSize: '20px' }} align="center">{t('Description')}</TableCell>
+                <TableCell scope="col" className={classes.tableCell} style={{ fontWeight: 700, fontSize: '20px' }} align="center">{t('Transaction.Date')}</TableCell>
+                <TableCell scope="col" className={classes.tableCell} style={{ fontWeight: 700, fontSize: '20px' }} align="center">{t('Amount')}</TableCell>
                 <TableCell scope="col" className={classes.tableCell} style={{ fontWeight: 700, fontSize: '20px' }} align="center"></TableCell>
               </TableRow>
             </TableHead>

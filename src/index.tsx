@@ -1,14 +1,17 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
+import './index.scss';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { Provider } from 'react-redux';
 import { store } from './store/configureStore';
+import './i18n'
 
 ReactDOM.render(
   <Provider store={store}>
-    <App />
+    <Suspense fallback={null}>
+      <App />
+    </Suspense>
   </Provider>,
   document.getElementById('root')
 );

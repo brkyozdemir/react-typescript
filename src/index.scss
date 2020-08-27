@@ -1,3 +1,9 @@
+$poppins: "Poppins";
+$block: block;
+$pointer: pointer;
+$dark: #263238;
+$none: none;
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
@@ -26,12 +32,18 @@ span,
 small,
 td,
 th {
-  font-family: "Poppins";
+  font-family: $poppins;
 }
+
+.lang_radio{
+  color: white;
+  font-family: $poppins;
+}
+
 
 td,
 th {
-  color: #263238 !important;
+  color: $dark !important;
 }
 
 .entry-form {
@@ -43,35 +55,35 @@ th {
 .entry-form input,
 .entry-form textarea,
 .entry-form select {
-  resize: none;
-  border: none;
+  resize: $none;
+  border: $none;
   border-bottom: 1px solid #90a4ae;
-  outline: none;
+  outline: $none;
 }
 
 .entry-form input:focus,
 .entry-form textarea:focus {
-  resize: none;
-  border: none;
-  border-bottom: 1px solid #263238;
-  outline: none;
+  resize: $none;
+  border: $none;
+  border-bottom: 1px solid $dark;
+  outline: $none;
   background-color: #dedede;
   border-radius: 10px;
   padding: 5px;
 }
 
 .entry-form button {
-  border: none;
-  background-color: #263238;
+  border: $none;
+  background-color: $dark;
   color: #90a4ae;
   padding: 10px;
   border-radius: 10px;
 }
 
 .entry-form button:hover {
-  border: none;
+  border: $none;
   background-color: #37474f;
-  cursor: pointer;
+  cursor: $pointer;
 }
 
 .entry-form label {
@@ -85,7 +97,7 @@ th {
 .entry-form select {
   font-size: 1rem;
   margin: 0.5rem 0;
-  display: block;
+  display: $block;
   width: 100%;
 }
 
@@ -96,19 +108,19 @@ th {
 .close_button {
   font-size: 1rem;
   margin: 0.5rem 0;
-  display: block;
+  display: $block;
   width: 400px;
-  border: none;
-  background-color: #263238;
+  border: $none;
+  background-color: $dark;
   color: #90a4ae;
   padding: 10px;
   border-radius: 10px;
 }
 
 .close_button:hover {
-  border: none;
+  border: $none;
   background-color: #37474f;
-  cursor: pointer;
+  cursor: $pointer;
 }
 
 #content_dialog .button_outform {

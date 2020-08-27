@@ -12,6 +12,7 @@ import { useDispatch } from 'react-redux';
 import { ThunkDispatch } from 'redux-thunk';
 import { AppActions } from '../types/actions';
 import { startRemoveTransaction } from '../actions/transactions';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
   data: Transaction
@@ -20,6 +21,7 @@ interface Props {
 const RemovePage: React.FC<Props> = ({ data }) => {
   const [open, setOpen] = React.useState(false);
   const transactionDispatch = useDispatch<ThunkDispatch<any, any, AppActions>>();
+  const { t, i18n } = useTranslation();
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -45,18 +47,18 @@ const RemovePage: React.FC<Props> = ({ data }) => {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">{`Delete Transaction Id:${data.id}`}</DialogTitle>
+        <DialogTitle id="alert-dialog-title">{`${t('Delete.Transaction')} Id:${data.id}`}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            Are you sure to delete this record?
+            {t('Are.You.Sure')}
           </DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} style={{ color: '#263238' }}>
-            <strong>Cancel</strong>
+            <strong>{t('Cancel')}</strong>
           </Button>
           <Button onClick={handleRemove} style={{ color: 'white', backgroundColor: 'red' }} autoFocus>
-            Delete
+            {t('Delete')}
           </Button>
         </DialogActions>
       </Dialog>

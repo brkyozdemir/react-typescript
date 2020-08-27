@@ -4,6 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
+import { useTranslation } from 'react-i18next';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -16,6 +17,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const AsideList: React.FC = () => {
+  const { t, i18n } = useTranslation();
   const classes = useStyles();
   const [selectedIndex] = React.useState(1);
 
@@ -26,26 +28,26 @@ const AsideList: React.FC = () => {
           button
           selected={selectedIndex === 0}
         >
-          <ListItemText primary="Dashboard" />
+          <ListItemText primary={t("Dashboard")} />
         </ListItem>
         <ListItem
           style={{ backgroundColor: '#90A4AE' }}
           button
           selected={selectedIndex === 1}
         >
-          <ListItemText primary="Transactions" />
+          <ListItemText primary={t("Transactions")} />
         </ListItem>
         <ListItem
           button
           selected={selectedIndex === 2}
         >
-          <ListItemText primary="Accounts" />
+          <ListItemText primary={t("Accounts")} />
         </ListItem>
         <ListItem
           button
           selected={selectedIndex === 3}
         >
-          <ListItemText primary="Settings" />
+          <ListItemText primary={t("Settings")} />
         </ListItem>
       </List>
     </div>
